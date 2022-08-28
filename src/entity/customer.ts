@@ -5,6 +5,7 @@ export class Customer {
   _name: string;
   _email: string;
   _address: Address
+  _rewardPoints: number = 0
 
 
   constructor(_id: string, _name: string, _email: string, address: Address) {
@@ -28,6 +29,10 @@ export class Customer {
   changeAddress(newAddress: Address): void {
     this._address = newAddress
     this.validate()
+  }
+
+  addRewardPoints(points: number): void {
+    this._rewardPoints += points
   }
 
   validate() {
@@ -55,5 +60,9 @@ export class Customer {
 
   get address(): Address {
     return this._address
+  }
+
+  get rewardPoints(): number {
+    return this._rewardPoints
   }
 }
