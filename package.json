@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "test": "jest"
+    "test": "npx tsc --noEmit && npx jest",
+    "test:watch": "npm test -- --watch"
   },
   "devDependencies": {
     "@swc/cli": "^0.1.57",
