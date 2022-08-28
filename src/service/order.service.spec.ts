@@ -1,5 +1,7 @@
+import { Customer } from "../entity/customer"
 import Order from "../entity/order"
 import OrderItem from "../entity/order_item"
+import Address from "../entity/valueObjects/address"
 import OrderService from "./order.service"
 
 describe("Order Service", () => {
@@ -15,5 +17,23 @@ describe("Order Service", () => {
     const total = OrderService.getTotal([order1, order2]);
 
     expect(total).toEqual(70)
+  })
+
+  it("should be able to place order", () => {
+    const customer = new Customer("id", "name", "email@email.com", new Address("street", 1, "123-123", "rj"))
+    const orderItem = new OrderItem("id", "name", 10, "p1", 1)
+
+    const order = OrderService.placeOrder(customer, [orderItem])
+
+    expect(order.total()).toEqual(10)
+    expect(customer.rewardPoints).toEqual(5)
+  })
+
+  it("should not be able to place order without items", () => {
+    expect(() => {
+      const customer = new Customer("id", "name", "email@email.com", new Address("street", 1, "123-123", "rj"))
+
+      OrderService.placeOrder(customer, [])
+    }).toThrow("Order must have at least one item")
   })
 })
