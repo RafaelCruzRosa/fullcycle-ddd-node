@@ -58,8 +58,17 @@ describe("Order domain test", () => {
     }).toThrow("Order item quantity must be greater than zero")
   })
 
-  it("Should be able to get total", () => {
+  it("Should be able to get total from order item", () => {
     const orderItem = new OrderItem("123", "name", 100, "p1", 2)
     expect(orderItem.getTotal()).toEqual(200)
+  })
+
+  it("Should be able to get total form order", () => {
+    const orderItem1 = new OrderItem("12", "name", 100, "p1", 2)
+    const orderItem2 = new OrderItem("13", "name", 200, "p1", 2)
+
+    const order = new Order("id", "c1", [orderItem1, orderItem2])
+
+    expect(order.total()).toEqual(600)
   })
 })
