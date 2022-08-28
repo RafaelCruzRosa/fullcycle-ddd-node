@@ -12,6 +12,10 @@ export default class Order {
     this.validate()
   }
 
+  total(): number {
+    return this._orderItems.reduce((total, item) => item.getTotal() + total, 0)
+  }
+
   validate() {
     if (this._id === "") {
       throw new Error("Order id is required")
