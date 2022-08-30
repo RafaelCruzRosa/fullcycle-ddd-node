@@ -5,7 +5,7 @@ describe("Product repository test", () => {
   beforeEach(async () => {
     sequelize = new Sequelize({
       dialect: "sqlite",
-      database: ":memory:",
+      storage: ":memory:",
       logging: false,
     })
   })
