@@ -10,4 +10,20 @@ export default class Address {
     this._city = city
     this._zip = zip
   }
+
+  get street(): string {
+    return this._street;
+  }
+
+  get city(): string {
+    return this._city
+  }
+
+  get zip(): string {
+    return this._zip
+  }
+
+  get number(): number {
+    return this._number
+  }
 }
