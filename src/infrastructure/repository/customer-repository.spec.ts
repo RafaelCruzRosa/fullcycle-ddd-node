@@ -48,4 +48,17 @@ describe("Customer repository test", () => {
       number: customer.address.number
     })
   })
+
+  it("should be able to find a customer", async () => {
+    const address = new Address("street", 1, "zip", "city");
+    const customer = new Customer("1", "Customer 1", "customer@customer.com", address)
+
+    const customerRepository = new CustomerRepository()
+
+    await customerRepository.create(customer)
+
+    const customerFinded = await customerRepository.find(customer.id)
+
+    expect(customerFinded).toEqual(customer)
+  })
 })
