@@ -61,4 +61,11 @@ describe("Customer repository test", () => {
 
     expect(customerFinded).toEqual(customer)
   })
+
+  it("should throw error if customer not found", async () => {
+    const customerRepository = new CustomerRepository()
+    expect(async () => {
+      await customerRepository.find("ABCD")
+    }).rejects.toThrow("Customer not found")
+  })
 })
