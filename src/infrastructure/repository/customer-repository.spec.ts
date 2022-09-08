@@ -86,4 +86,19 @@ describe("Customer repository test", () => {
 
     expect(customerFinded).toEqual(customer)
   })
+
+  it("should be able to find all customers", async () => {
+    const address = new Address("street", 1, "zip", "city");
+    const customer1 = new Customer("1", "Customer 1", "customer@customer.com", address)
+    const customer2 = new Customer("2", "Customer 2", "customer2@customer2.com", address)
+
+    const customerRepository = new CustomerRepository()
+
+    await customerRepository.create(customer1)
+    await customerRepository.create(customer2)
+
+    const customers = await customerRepository.findAll()
+
+    expect(customers).toEqual([customer1, customer2])
+  })
 })
