@@ -48,8 +48,12 @@ export default class CustomerRepository implements RepositoryInterface<Customer>
       throw new Error("Customer not found")
     }
   }
-  findAll(): Promise<Customer[]> {
-    throw new Error("Method not implemented.");
+  async findAll(): Promise<Customer[]> {
+    const customersModel = await CustomerModel.findAll()
+
+    return customersModel.map(customerModel => {
+      return new Customer(customerModel.id, customerModel.name, customerModel.email, new Address(customerModel.street, customerModel.number, customerModel.zip, customerModel.city))
+    })
   }
 
 }
