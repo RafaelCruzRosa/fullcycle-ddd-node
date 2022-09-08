@@ -68,4 +68,22 @@ describe("Customer repository test", () => {
       await customerRepository.find("ABCD")
     }).rejects.toThrow("Customer not found")
   })
+
+  it("should be able to update a customer", async () => {
+    const address = new Address("street", 1, "zip", "city");
+    const customer = new Customer("1", "Customer 1", "customer@customer.com", address)
+
+    const customerRepository = new CustomerRepository()
+
+    await customerRepository.create(customer)
+
+    customer.changeEmail("new@mail.com")
+    customer.changeName("new name")
+
+    customerRepository.update(customer)
+
+    const customerFinded = await customerRepository.find(customer.id)
+
+    expect(customerFinded).toEqual(customer)
+  })
 })
