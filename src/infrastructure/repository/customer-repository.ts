@@ -20,8 +20,23 @@ export default class CustomerRepository implements RepositoryInterface<Customer>
       throw error
     }
   }
-  update(entity: Customer): Promise<void> {
-    throw new Error("Method not implemented.");
+  async update(entity: Customer): Promise<void> {
+    try {
+      await CustomerModel.update({
+        name: entity.name,
+        email: entity.email,
+        street: entity.address.street,
+        city: entity.address.city,
+        number: entity.address.number,
+        zip: entity.address.zip
+      }, {
+        where: {
+          id: entity.id
+        }
+      })
+    } catch (error) {
+      throw new Error("Error when update a customer")
+    }
   }
   async find(id: string): Promise<Customer> {
     try {
