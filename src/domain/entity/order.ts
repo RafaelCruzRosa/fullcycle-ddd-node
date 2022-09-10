@@ -12,6 +12,10 @@ export default class Order {
     this.validate()
   }
 
+  get id(): string {
+    return this._id
+  }
+
   total(): number {
     return this._orderItems.reduce((total, item) => item.getTotal() + total, 0)
   }
