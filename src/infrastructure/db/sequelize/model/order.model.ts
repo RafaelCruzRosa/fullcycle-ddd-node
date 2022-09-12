@@ -6,11 +6,11 @@ import OrderItemModel from "./order-item.model";
 export default class OrderModel extends Model {
   @PrimaryKey
   @Column
-  declare id: number
+  declare id: string
 
   @Column({ allowNull: false })
   @ForeignKey(() => CustomerModel)
-  declare customer_id: number
+  declare customer_id: string
 
   @BelongsTo(() => CustomerModel)
   declare customer: CustomerModel
