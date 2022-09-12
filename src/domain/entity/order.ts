@@ -3,12 +3,12 @@ import OrderItem from "./order_item"
 export default class Order {
   _id: string
   _customerId: string
-  _orderItems: OrderItem[]
+  _items: OrderItem[]
 
   constructor(id: string, customerId: string, orderItems: OrderItem[]) {
     this._id = id
     this._customerId = customerId
-    this._orderItems = orderItems
+    this._items = orderItems
     this.validate()
   }
 
@@ -16,8 +16,16 @@ export default class Order {
     return this._id
   }
 
+  get customerId(): string {
+    return this._customerId
+  }
+
+  get items(): OrderItem[] {
+    return this._items
+  }
+
   total(): number {
-    return this._orderItems.reduce((total, item) => item.getTotal() + total, 0)
+    return this._items.reduce((total, item) => item.getTotal() + total, 0)
   }
 
   validate() {
@@ -27,7 +35,7 @@ export default class Order {
     if (this._customerId === "") {
       throw new Error("Order customer id is required")
     }
-    if (this._orderItems.length === 0) {
+    if (this._items.length === 0) {
       throw new Error("Order must have at least 1 item")
     }
   }
