@@ -5,6 +5,12 @@ import OrderItemModel from "../db/sequelize/model/order-item.model";
 import OrderModel from "../db/sequelize/model/order.model";
 
 export default class OrderRepository implements RepositoryInterface<Order> {
+  find(id: string): Promise<Order> {
+    throw new Error("Method not implemented.");
+  }
+  findAll(): Promise<Order[]> {
+    throw new Error("Method not implemented.");
+  }
   async create(entity: Order): Promise<void> {
     try {
       await OrderModel.create({
@@ -30,9 +36,24 @@ export default class OrderRepository implements RepositoryInterface<Order> {
       throw new Error("Error when creating order")
     }
   }
-  update(entity: Order): Promise<void> {
-    throw new Error("Method not implemented.");
+
+  async update(entity: Order): Promise<void> {
+    try {
+      OrderModel.update({
+        items: entity.items.map(item => {
+          return {
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price,
+            product_id: item.productId
+          }
+        })
+      }, { where: { id: entity.id } })
+    } catch (error) {
+
+    }
   }
+
   async find(id: string): Promise<Order> {
     try {
       const order = await OrderModel.findOne({ where: { id }, rejectOnEmpty: true, include: [OrderItemModel] })
