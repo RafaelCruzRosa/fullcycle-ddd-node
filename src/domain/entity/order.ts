@@ -28,6 +28,10 @@ export default class Order {
     return this._items.reduce((total, item) => item.getTotal() + total, 0)
   }
 
+  addItem(newItem: OrderItem): void {
+    this._items.push(newItem)
+  }
+
   validate() {
     if (this._id === "") {
       throw new Error("Order id is required")
