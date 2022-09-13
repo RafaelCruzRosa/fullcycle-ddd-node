@@ -71,4 +71,15 @@ describe("Order domain test", () => {
 
     expect(order.total()).toEqual(600)
   })
+
+  it("should be able to add an item to order", () => {
+    const orderItem1 = new OrderItem("12", "name", 100, "p1", 2)
+    const orderItem2 = new OrderItem("13", "name", 200, "p1", 2)
+
+    const order = new Order("id", "c1", [orderItem1])
+
+    order.addItem(orderItem2)
+
+    expect(order.items).toEqual([orderItem1, orderItem2])
+  })
 })
