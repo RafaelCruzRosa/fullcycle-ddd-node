@@ -122,4 +122,29 @@ describe("Order Repository test", () => {
     }).rejects.toThrow("Order not found")
 
   })
+
+  it("should be able to find all orders", async () => {
+    const productRepository = new ProductRepository()
+    const product = new Product("1", "product name", 100)
+    await productRepository.create(product)
+
+    const customerRepository = new CustomerRepository()
+    const customer = new Customer("1", "customer name", "customer@customer.com", new Address("street", 1, "123", "city"))
+    await customerRepository.create(customer)
+
+    const orderItem1 = new OrderItem("1", "order item", 10, product.id, 2)
+    const orderItem2 = new OrderItem("2", "order item", 10, product.id, 2)
+
+    const order1 = new Order("1", customer.id, [orderItem1])
+    const order2 = new Order("2", customer.id, [orderItem2])
+
+    const orderRepository = new OrderRepository()
+
+    await orderRepository.create(order1)
+    await orderRepository.create(order2)
+
+
+    const ordersFinded = await orderRepository.findAll();
+    expect([order1, order2]).toEqual(ordersFinded)
+  })
 })
