@@ -1,8 +1,9 @@
-import { EventHandlerInterface } from "../../event-handler.interface";
-import eventInterface from "../../event.interface";
+import { EventHandlerInterface } from "../../@shared/event-handler.interface";
+import EventInterface from "../../@shared/event.interface";
+
 
 export default class EnviaConsoleLogHandler implements EventHandlerInterface {
-  handle(event: eventInterface): void {
+  handle(event: EventInterface): void {
     console.log(`Endereço do cliente: ${event.eventData.id}, ${event.eventData.name} alterado para: ${event.eventData.address.street}`)
   }
 
