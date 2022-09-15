@@ -1,3 +1,10 @@
+import CustomerChangedAddressEvent from "../event/@shared/customer/customer-change-address-event";
+import CustomerCreatedEvent from "../event/@shared/customer/customer-created.event";
+import EnviaConsoleLogHandler from "../event/@shared/customer/handler/envia-console-log-handler";
+import EnviaConsoleLog1Handler from "../event/@shared/customer/handler/envia-console-log1-handler";
+import EnviaConsoleLog2Handler from "../event/@shared/customer/handler/envia-console-log2-handler";
+import EventDispatcher from "../event/@shared/event-dispatcher";
+import EventDispatcherInterface from "../event/@shared/event-dispatcher.interface";
 import Address from "./valueObjects/address";
 
 export class Customer {
@@ -6,14 +13,23 @@ export class Customer {
   _email: string;
   _address: Address
   _rewardPoints: number = 0
+  eventDispatcher: EventDispatcherInterface = new EventDispatcher()
 
 
   constructor(_id: string, _name: string, _email: string, address: Address) {
+
     this._id = _id;
     this._name = _name;
     this._email = _email;
     this._address = address
     this.validate()
+    this.eventDispatcher.register("CustomerCreatedEvent", new EnviaConsoleLog1Handler())
+    this.eventDispatcher.register("CustomerCreatedEvent", new EnviaConsoleLog2Handler())
+    this.eventDispatcher.register("CustomerChangedAddressEvent", new EnviaConsoleLogHandler())
+    this.eventDispatcher.notify(new CustomerCreatedEvent({
+      id: this._id,
+      name: this._name
+    }))
   }
 
   changeName(newName: string): void {
@@ -29,6 +45,7 @@ export class Customer {
   changeAddress(newAddress: Address): void {
     this._address = newAddress
     this.validate()
+    this.eventDispatcher.notify(new CustomerChangedAddressEvent(this))
   }
 
   addRewardPoints(points: number): void {
